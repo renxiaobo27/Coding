@@ -26,7 +26,7 @@ public class ReverseNodesinkGroup {
 			i++;
 			if(i%k==0)
 			{
-				ListNode pre = reverse(pre,head.next);
+				pre = reverse(pre,head.next);
 				head = pre.next;
 			}
 			else
