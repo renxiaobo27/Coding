@@ -60,4 +60,10 @@ public class BasicCalculator {
 		 if(number!=0) result += sign*number;
 		 return result;
 	 }
+	 
+	 public static void main(String []strs)
+	 {
+		 BasicCalculator b = new BasicCalculator();
+		 System.out.println(b.calculate("(1-3)+5"));
+	 }
 }
