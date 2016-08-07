@@ -1,0 +1,81 @@
+There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
+
+For example,
+Given the following words in dictionary,
+
+[
+  "wrt",
+  "wrf",
+  "er",
+  "ett",
+  "rftt"
+]
+The correct order is: "wertf".
+
+
+public class Solution {
+    public String alienOrder(String[] words) {
+        if(words==null || words.length==0)
+            return "";
+        HashMap<Character, Set<Character>> graph = new HashMap<Character,Set<Character>>();
+        HashMap<Character,Integer> indegree = new HashMap<Character,Integer>();
+        
+        //initial
+        for(String word:words)
+        {
+            for(char c:word.toCharArray())
+            {
+                if(!graph.containsKey(c))
+                {
+                    graph.put(c,new HashSet<Character>());
+                    indegree.put(c,0);
+                }
+            }
+        }
+        
+        //build graph
+        for(int i=1;i<words.length;i++)
+        {
+            String s1 = words[i-1];
+            String s2 = words[i];
+            int minLen = Math.min(s1.length(),s2.length());
+            for(int j=0;j<minLen;j++)
+            {
+                char c1 = s1.charAt(j);
+                char c2 = s2.charAt(j);
+                if(c1!=c2)
+                {
+                    if(!graph.get(c1).contains(c2)) // have to check this otherwise the indegree would increase more times
+                    {
+                        graph.get(c1).add(c2);
+                        indegree.put(c2,indegree.get(c2)+1);
+                        break;
+                    }
+                }
+            }
+        }
+        Queue<Character> q = new LinkedList<Character>();
+        for(char c:indegree.keySet())
+        {
+            if(indegree.get(c)==0)
+                q.add(c);
+        }
+        StringBuilder sb = new StringBuilder();
+        
+        while(!q.isEmpty())
+        {
+            Character cur = q.poll();
+            sb.append(cur);
+            for(char c:graph.get(cur))
+            {
+                indegree.put(c,indegree.get(c)-1);
+                if(indegree.get(c)==0)
+                    q.add(c);
+            }
+        }
+        
+        if(sb.length()!=indegree.size()) // check cycle 
+            return "";
+        return sb.toString();
+    }
+}
