@@ -1,4 +1,8 @@
 
+using turn to select the appearance of the same character.
+if the two word not same, it would not affect the result;
+if the two words same, it would tell the first and third ....
+careful about the if else if structure
 
 public class ShortestWordDistanceIII {
 
@@ -22,7 +26,7 @@ public class ShortestWordDistanceIII {
 					 dist = Math.min(dist, index1-index2);
 				 turn += incr;
 			 }
-			 else if(words[i].equals(word2))
+			 else if(words[i].equals(word2)) //careful the else if
 			 {
 				 index2 = i;
 				 if(index1!=-1)
