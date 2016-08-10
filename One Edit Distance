@@ -1,0 +1,107 @@
+Given two strings S and T, determine if they are both one edit distance apart.
+
+public class Solution {
+    public boolean isOneEditDistance(String s, String t) {
+        if(s.equals(t))
+            return false;
+        int m = s.length();
+        int n = t.length();
+        if(Math.abs(m-n)>1)
+            return false;
+        int i=0;
+        int j=0;
+        int count = 0;
+        while(i<m && j<n)
+        {
+            if(s.charAt(i)==t.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                count++;
+                if(count>1)
+                    return false;
+                if(m>n)
+                {
+                    i++;
+                }
+                else if(n>m)
+                {
+                    j++;
+                }
+                else
+                {
+                    i++;
+                    j++;
+                }
+            }
+        }
+        if(i<m||j<n)
+            count++;
+        if(count>1)
+            return false;
+        return true;
+        
+        
+    }
+}
+
+
+
+
+/*****************************************************************************/
+
+public class Solution {
+    public boolean isOneEditDistance(String s, String t) {
+        if(s.equals(t))
+            return false;
+        int lens = s.length();
+        int lent = t.length();
+        if(lens==lent)
+            return changeOne(s,t);
+        if(lens-1==lent)
+            return removeOne(s,t);
+        if(lent-1==lens)
+            return removeOne(t,s);
+            
+        return false;
+    }
+    
+    public boolean removeOne(String l,String s)
+    {
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i)!=l.charAt(i))
+            {
+                return l.substring(i+1).equals(s.substring(i));
+            }
+        }
+        return true;
+    }
+    public boolean changeOne(String s,String t)
+    {
+        boolean oneDiff = false;
+        
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i)!=t.charAt(i))
+            {
+                if(oneDiff)
+                {
+                    return false;
+                }
+                oneDiff = true;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+
+
+
+
